@@ -1,5 +1,10 @@
 pipeline {
-  agent none
+  agent {
+    node {
+      label 'ce-devrls-us'
+    }
+    
+  }
   stages {
     stage('Creating QE and RC build') {
       parallel {
