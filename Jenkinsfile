@@ -1,10 +1,5 @@
 pipeline {
-  agent {
-    node {
-      label 'devrls728srv1.init.coupadev.com'
-    }
-    
-  }
+  agent none
   stages {
     stage('Creating QE and RC build') {
       parallel {
