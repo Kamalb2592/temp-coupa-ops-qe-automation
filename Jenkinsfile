@@ -6,67 +6,91 @@ pipeline {
     
   }
   stages {
-    stage('Creating QE and RC build') {
-      parallel {
-        stage('Creating QE and RC build') {
-          steps {
-            sh 'echo "Create QE and RC Build"'
-          }
-        }
-        stage('Upload cookbook and git refs ') {
-          steps {
-            sh 'echo "apply template"'
-          }
-        }
-        stage('Apply Template') {
-          steps {
-            sh 'echo "Applying template"'
-          }
-        }
-      }
-    }
-    stage('ES Deploy') {
+    stage('Build Validation') {
       steps {
-        sh 'echo "Upgrading deployment"'
+        sh 'echo "creating missing Pull request for targeted Es branch"'
       }
     }
-    stage('Regression Testing') {
+    stage('Create QE Build') {
       parallel {
-        stage('Regression Testing') {
+        stage('Create QE Build') {
           steps {
-            sh 'echo "executing regression testsuite"'
+            sh 'echo "cherry pick all the new ticket changes"'
           }
         }
-        stage('Test1') {
+        stage('Upload Cookbooks') {
           steps {
-            sh 'echo "test1"'
+            sh 'echo "Uploading cookbooks after successful build creation"'
           }
         }
-        stage('Test2') {
+        stage('Create Template') {
           steps {
-            sh 'echo "test1"'
-          }
-        }
-        stage('Test3') {
-          steps {
-            sh 'echo "test1"'
-          }
-        }
-        stage('Test4') {
-          steps {
-            sh 'echo "test1"'
-          }
-        }
-        stage('Test5') {
-          steps {
-            sh 'echo "test1"'
+            sh 'echo "creating ES Release template with updated cookbook version "'
           }
         }
       }
     }
-    stage('Genrate Tag') {
+    stage('Deploy') {
+      parallel {
+        stage('Deploy') {
+          steps {
+            echo 'Deploy code on deployemnts'
+          }
+        }
+        stage('Upgrade Deployment') {
+          steps {
+            sh 'echo "upgrade deployemnt with new es release template"'
+          }
+        }
+        stage('Upgrade Release Server') {
+          steps {
+            sh 'echo "upgrading release server with updated es release template"'
+          }
+        }
+      }
+    }
+    stage('Tests(Regression)') {
+      parallel {
+        stage('Tests') {
+          steps {
+            echo 'Regression testing'
+          }
+        }
+        stage('Bootstrap') {
+          steps {
+            echo 'Bootstrap instance'
+          }
+        }
+        stage('Upgrade') {
+          steps {
+            echo 'Upgrade instance'
+          }
+        }
+        stage('Regenrate  All Config') {
+          steps {
+            echo 'Regenrate all config'
+          }
+        }
+        stage('Instance Validation') {
+          steps {
+            echo 'stance validation'
+          }
+        }
+        stage('Restart Instacne') {
+          steps {
+            echo 'Restart Instacne'
+          }
+        }
+        stage('DB Backup') {
+          steps {
+            echo 'DB Backup'
+          }
+        }
+      }
+    }
+    stage('Merge PRs') {
       steps {
-        sh 'echo "Genrating tag"'
+        echo 'Tag and release'
       }
     }
   }
