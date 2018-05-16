@@ -20,7 +20,11 @@ pipeline {
         }
         stage('Upload Cookbooks') {
           steps {
-            sh 'echo "Uploading cookbooks after successful build creation"'
+            sh '''
+
+sleep 60 ; echo "Uploading cookbooks after successful build creation"
+
+'''
           }
         }
         stage('Create Template') {
