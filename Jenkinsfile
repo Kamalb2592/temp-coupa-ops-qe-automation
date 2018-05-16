@@ -15,14 +15,14 @@ pipeline {
       parallel {
         stage('Create QE Build') {
           steps {
-            sh 'echo "cherry pick all the new ticket changes"'
+            sh 'sleep 30 ;echo "cherry pick all the new ticket changes"'
           }
         }
         stage('Upload Cookbooks') {
           steps {
             sh '''
 
-sleep 60 ; echo "Uploading cookbooks after successful build creation"
+echo "Uploading cookbooks after successful build creation"
 
 '''
           }
